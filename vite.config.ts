@@ -9,8 +9,8 @@ export default defineConfig({
   resolve: {
     alias: {
       "@components": new URL("./src/components", import.meta.url).pathname,
-      "@views": new URL("./src/views", import.meta.url).pathname,
-      "@firebase": new URL("./src/firebase", import.meta.url).pathname,
+      "@pages": new URL("./src/pages", import.meta.url).pathname,
+      "@fbconfig": new URL("./src/firebase", import.meta.url).pathname,
     },
   },
 });

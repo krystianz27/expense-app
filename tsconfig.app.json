@@ -9,8 +9,8 @@
     "baseUrl": "./src",
     "paths": {
       "@components/*": ["components/*"],
-      "@views/*": ["views/*"],
-      "@firebase/*": ["firebase/*"]
+      "@pages/*": ["pages/*"],
+      "@fbconfig/*": ["firebase/*"]
     },
 
     "useDefineForClassFields": true,
