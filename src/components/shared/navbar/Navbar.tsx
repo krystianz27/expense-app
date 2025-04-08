@@ -7,7 +7,7 @@ const Navbar = ({ onToggleMenu }: { onToggleMenu: () => void }) => {
         <button onClick={onToggleMenu} className="text-white">
           <FaBars size={24} />
         </button>
-        <h1 className="text-xl">My App</h1>
+        <h1 className="text-xl">Expense Tracker</h1>
       </div>
 
       <div>
