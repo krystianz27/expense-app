@@ -10,7 +10,8 @@
     "paths": {
       "@components/*": ["components/*"],
       "@pages/*": ["pages/*"],
-      "@fbconfig/*": ["firebase/*"]
+      "@fbconfig/*": ["firebase/*"],
+      "@features/*": ["features/*"]
     },
 
     "useDefineForClassFields": true,
