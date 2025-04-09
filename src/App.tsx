@@ -7,27 +7,37 @@ import LoginForm from "@components/auth/LoginForm";
 import RegisterForm from "@components/auth/RegisterForm";
 import Toast from "@components/shared/Toast";
 import ProtectedRoute from "@components/shared/ProtectedRoute";
+import PersistAuth from "./components/auth/PersistAuth";
 
 const App = () => {
   return (
     <>
-      <Routes>
-        <Route element={<DashboardLayout />}>
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/settings" element={<Settings />} />
+      <PersistAuth>
+        <Routes>
+          <Route element={<DashboardLayout />}>
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <UserProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/settings" element={<Settings />} />
 
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/register" element={<RegisterForm />} />
-        </Route>
-      </Routes>
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/register" element={<RegisterForm />} />
+          </Route>
+        </Routes>
+      </PersistAuth>
 
       <Toast />
     </>
