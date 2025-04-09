@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@fbconfig/config";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { AppDispatch } from "../../redux/store";
+import { loginUser } from "../../features/user/userAuthActions";
+import { useRedirectIfAuthenticated } from "../../hooks/useRedirectIfAuthenticated";
 
 type FormData = {
   email: string;
@@ -10,7 +12,13 @@ type FormData = {
 };
 
 const LoginForm = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from =
+    (location.state as { from?: Location })?.from?.pathname || "/dashboard";
+
+  useRedirectIfAuthenticated();
   const {
     register,
     handleSubmit,
@@ -19,9 +27,9 @@ const LoginForm = () => {
 
   const onSubmit = async (data: FormData) => {
     try {
-      await signInWithEmailAndPassword(auth, data.email, data.password);
+      await dispatch(loginUser(data.email, data.password));
       toast.success("Successfully logged in!");
-      navigate("/dashboard");
+      navigate(from);
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error(error.message);
