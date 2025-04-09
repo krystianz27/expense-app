@@ -1,0 +1,227 @@
+import React, { useState, useRef, useEffect } from "react";
+import { FaCamera } from "react-icons/fa";
+import { storage } from "@fbconfig/config";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { toast } from "react-toastify";
+import { User, updateProfile } from "firebase/auth";
+
+interface AvatarUploaderProps {
+  currentUser: User | null;
+}
+
+const AvatarUploader: React.FC<AvatarUploaderProps> = ({ currentUser }) => {
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [isCamera, setIsCamera] = useState<boolean>(false);
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    currentUser?.photoURL || null,
+  );
+
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [stream, setStream] = useState<MediaStream | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setPhotoFile(file);
+    }
+  };
+
+  const handleCameraOption = () => {
+    setIsCamera((prev) => !prev);
+    stopCameraStream();
+  };
+
+  const handleCaptureImage = () => {
+    if (canvasRef.current && videoRef.current) {
+      const canvas = canvasRef.current;
+      const context = canvas.getContext("2d");
+      if (context && videoRef.current.videoWidth > 0) {
+        canvas.width = videoRef.current.videoWidth;
+        canvas.height = videoRef.current.videoHeight;
+        context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+
+        canvas.toBlob((blob) => {
+          if (blob) {
+            const file = new File([blob], "photo.jpg", { type: "image/jpeg" });
+            setPhotoFile(file);
+            const imageUrl = URL.createObjectURL(file);
+            setImagePreview(imageUrl);
+            stopCameraStream();
+          }
+        });
+      }
+    }
+  };
+
+  const stopCameraStream = () => {
+    if (stream) {
+      stream.getTracks().forEach((track) => track.stop());
+      setStream(null);
+    }
+  };
+
+  const handleRetakeImage = () => {
+    setImagePreview(null);
+    setIsCamera(true);
+
+    navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then((mediaStream) => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = mediaStream;
+          setStream(mediaStream);
+        }
+      })
+      .catch((err) => {
+        console.error("Failed to access camera: ", err);
+        toast.error("Failed to access camera.");
+      });
+  };
+
+  const handleUploadPhoto = async () => {
+    if (!currentUser || !photoFile) return;
+
+    try {
+      const storageRef = ref(storage, `profile_pictures/${currentUser.uid}`);
+      const snapshot = await uploadBytes(storageRef, photoFile);
+      const url = await getDownloadURL(snapshot.ref);
+
+      await updateProfile(currentUser, {
+        photoURL: url,
+      });
+
+      setImagePreview(url);
+      setPhotoFile(null);
+      toast.success("Photo updated successfully!");
+    } catch (err) {
+      console.error("Failed to update profile photo:", err);
+      toast.error("Failed to update profile.");
+    }
+  };
+
+  useEffect(() => {
+    if (isCamera && videoRef.current) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((mediaStream) => {
+          setStream(mediaStream);
+          if (videoRef.current) {
+            videoRef.current.srcObject = mediaStream;
+          }
+        })
+        .catch((err) => {
+          console.error("Failed to access camera: ", err);
+          toast.error("Failed to access camera.");
+        });
+
+      return () => {
+        stream?.getTracks().forEach((track) => track.stop());
+      };
+    }
+  }, [isCamera, stream]);
+
+  useEffect(() => {
+    if (currentUser?.photoURL) {
+      setImagePreview(currentUser.photoURL);
+    }
+  }, [currentUser]);
+
+  if (!currentUser) return null;
+
+  return (
+    <div className="flex flex-col items-center mt-4 space-y-4">
+      {/* Avatar Image */}
+      <div className="w-24 h-24 rounded-full overflow-hidden border border-gray-300 shadow">
+        {imagePreview ? (
+          <img
+            src={imagePreview}
+            alt="Preview"
+            className="w-full h-full object-cover"
+          />
+        ) : currentUser.photoURL ? (
+          <img
+            src={currentUser.photoURL}
+            alt="User Avatar"
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gray-200 text-gray-500">
+            <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z" />
+            </svg>
+          </div>
+        )}
+      </div>
+
+      {/* Display Name */}
+      {currentUser.displayName && (
+        <div className="mt-2 text-center text-gray-800 font-semibold">
+          {currentUser.displayName}
+        </div>
+      )}
+
+      {/* File Input and Camera Button */}
+      <div className="flex space-x-4 w-full">
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          className="w-full border border-gray-300 rounded px-3 py-2"
+        />
+        <button
+          type="button"
+          onClick={handleCameraOption}
+          className="py-3 px-4 bg-blue-500 text-white rounded flex items-center justify-center">
+          <FaCamera />
+        </button>
+      </div>
+
+      {/* Camera UI */}
+      {isCamera && (
+        <div className="mt-2 w-full">
+          {imagePreview ? (
+            <div>
+              <img
+                src={imagePreview}
+                alt="Captured"
+                className="w-full h-auto rounded shadow-md"
+              />
+              <button
+                type="button"
+                onClick={handleRetakeImage}
+                className="w-full mt-2 py-2 px-4 bg-yellow-500 text-white rounded">
+                Retake Photo
+              </button>
+            </div>
+          ) : (
+            <video
+              ref={videoRef}
+              autoPlay
+              className="w-full h-auto"
+              style={{ borderRadius: "8px" }}
+            />
+          )}
+          {!imagePreview && (
+            <button
+              type="button"
+              onClick={handleCaptureImage}
+              className="w-full mt-2 py-2 px-4 bg-green-500 text-white rounded">
+              Capture Photo
+            </button>
+          )}
+          <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
+        </div>
+      )}
+
+      {/* Upload Button */}
+      <button
+        onClick={handleUploadPhoto}
+        className="w-full mt-2 py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+        Upload Photo
+      </button>
+    </div>
+  );
+};
+
+export default AvatarUploader;
