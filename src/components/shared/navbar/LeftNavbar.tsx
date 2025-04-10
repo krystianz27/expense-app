@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { FaHome, FaUserAlt, FaCog } from "react-icons/fa";
+import { FaHome, FaReceipt, FaUserAlt, FaCog } from "react-icons/fa";
+import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -46,6 +47,33 @@ const LeftNavbar = ({
             className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-600 transition-all duration-300">
             <FaUserAlt className="text-xl" />
             <span>Profile</span>
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/expenses"
+            onClick={onClose}
+            className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-600 transition-all duration-300">
+            <FaReceipt className="text-xl" />
+            <span>My Expenses</span>
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/expense/add"
+            onClick={onClose}
+            className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-600 transition-all duration-300">
+            <FaMoneyBillTrendUp className="text-xl" />
+            <span>Add Expense</span>
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/category/add"
+            onClick={onClose}
+            className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-600 transition-all duration-300">
+            <FaMoneyBillTrendUp className="text-xl" />
+            <span>Add Category</span>
           </Link>
         </li>
         <li>
