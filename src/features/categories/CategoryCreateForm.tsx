@@ -6,8 +6,10 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addCategory } from "@src/features/categories/categoryService"; // Upewnij się, że masz odpowiednią ścieżkę
 import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
 
 const CategoryCreateForm: React.FC = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -30,7 +32,8 @@ const CategoryCreateForm: React.FC = () => {
 
       await addCategory(category);
       toast.success("Kategoria została dodana!");
-      reset(); // Resetowanie formularza po pomyślnym dodaniu
+      reset();
+      navigate("/categories"); // Przekierowanie do listy kategorii po dodaniu
     } catch (error) {
       toast.error("Błąd podczas dodawania kategorii.");
     }
@@ -38,9 +41,18 @@ const CategoryCreateForm: React.FC = () => {
 
   return (
     <div className="max-w-xl my-4 mx-auto p-6 bg-zinc-100 shadow-lg rounded-lg">
-      <h2 className="text-3xl font-semibold text-center mb-6 text-blue-600">
-        Dodaj nową kategorię
-      </h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-3xl font-semibold text-center mb-6 text-blue-600">
+          Dodaj nową kategorię
+        </h2>
+        <div className="flex space-x-4">
+          <Link to="/expense/add">
+            <button className="px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700">
+              Add Expense
+            </button>
+          </Link>
+        </div>
+      </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Name */}

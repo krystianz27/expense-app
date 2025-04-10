@@ -14,7 +14,6 @@ import {
   IconButton,
   TableSortLabel,
   Button,
-  Box,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
@@ -109,18 +108,27 @@ export const CategoryList = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <Box className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-semibold text-blue-600">
           Your Categories
         </h2>
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<AddIcon />}
-          onClick={() => navigate("/category/add")}>
-          Add Category
-        </Button>
-      </Box>
+        <div className="flex space-x-4 gap-2">
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<AddIcon />}
+            onClick={() => navigate("/category/add")}>
+            Add Category
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<AddIcon />}
+            onClick={() => navigate("/category/add")}>
+            Add Category
+          </Button>
+        </div>
+      </div>
 
       <TableContainer component={Paper} className="overflow-x-auto">
         <Table>
