@@ -29,7 +29,7 @@ export const ExpenseCreateForm = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <div className="max-w-xl mx-auto p-6 bg-zinc-100 shadow-lg rounded-lg">
       <h2 className="text-3xl font-semibold text-center mb-6 text-blue-600">
         Add a new expense
       </h2>
