@@ -11,6 +11,7 @@ import PersistAuth from "./components/auth/PersistAuth";
 import { ExpenseCreateForm } from "@features/expense/ExpenseCreateForm";
 import { ExpenseList } from "./features/expense/ExpenseList";
 import CategoryCreateForm from "./features/categories/CategoryCreateForm";
+import { CategoryList } from "./features/categories/CategoryList";
 
 const App = () => {
   return (
@@ -47,6 +48,14 @@ const App = () => {
               element={
                 <ProtectedRoute>
                   <ExpenseCreateForm />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/categories"
+              element={
+                <ProtectedRoute>
+                  <CategoryList />
                 </ProtectedRoute>
               }
             />
