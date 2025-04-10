@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserExpenses, deleteExpense } from "./expenseService"; // Make sure you have a deleteExpense function in your service
+import { getUserExpenses, deleteExpense } from "./expenseService";
 import { toast } from "react-toastify";
 import { auth } from "@src/firebase/config";
 import {
@@ -130,11 +130,18 @@ export const ExpenseList = () => {
         <h2 className="text-3xl font-semibold text-center text-blue-600">
           Your Expenses
         </h2>
-        <Link to="/expense/add">
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700">
-            Add Expense
-          </button>
-        </Link>
+        <div className="flex space-x-4">
+          <Link to="/expense/add">
+            <button className="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700">
+              Add Expense
+            </button>
+          </Link>
+          <Link to="/category/add">
+            <button className="px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700">
+              Add Category
+            </button>
+          </Link>
+        </div>
       </div>
 
       <TableContainer className="overflow-x-auto" component={Paper}>
@@ -205,7 +212,6 @@ export const ExpenseList = () => {
                     },
                   }}>
                   <TableCell>{expense.description}</TableCell>
-                  {/* <TableCell>{expense.category}</TableCell> */}
                   <TableCell>{getCategoryName(expense.category)}</TableCell>
                   <TableCell align="right">{expense.amount} PLN</TableCell>
                   <TableCell>{expense.date}</TableCell>

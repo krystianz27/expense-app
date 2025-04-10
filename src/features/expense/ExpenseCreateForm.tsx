@@ -7,8 +7,11 @@ import { useEffect, useState } from "react";
 import { Category, getUserCategories } from "../categories/categoryService"; // Assuming categoryService is in the same directory
 import { User as FirebaseUser } from "firebase/auth";
 import { auth } from "@src/firebase/config";
+import { Link, useNavigate } from "react-router-dom";
 
 export const ExpenseCreateForm = () => {
+  const navigate = useNavigate();
+
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<FirebaseUser | null>(null);
@@ -59,6 +62,7 @@ export const ExpenseCreateForm = () => {
       reset({
         date: new Date().toISOString().split("T")[0],
       });
+      navigate("/expenses"); // Redirect to the expense list page after adding
     } catch (error) {
       console.error("Error while adding expense: ", error);
       toast.error("An error occurred while adding the expense.");
@@ -70,10 +74,19 @@ export const ExpenseCreateForm = () => {
   }
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-zinc-100 shadow-lg rounded-lg">
-      <h2 className="text-3xl font-semibold text-center mb-6 text-blue-600">
-        Add a new expense
-      </h2>
+    <div className="max-w-xl my-4 mx-auto p-6 bg-zinc-100 shadow-lg rounded-lg">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-3xl font-semibold text-center mb-6 text-blue-600">
+          Dodaj nową kategorię
+        </h2>
+        <div className="flex space-x-4">
+          <Link to="/category/add">
+            <button className="px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700">
+              Add Category
+            </button>
+          </Link>
+        </div>
+      </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Amount */}
