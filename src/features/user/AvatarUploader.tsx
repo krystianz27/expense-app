@@ -24,12 +24,22 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({ currentUser }) => {
     const file = event.target.files?.[0];
     if (file) {
       setPhotoFile(file);
+      const url = URL.createObjectURL(file);
+      setImagePreview(url);
+      stopCameraStream();
+      setIsCamera(false);
     }
   };
 
   const handleCameraOption = () => {
-    setIsCamera((prev) => !prev);
-    stopCameraStream();
+    if (!isCamera) {
+      setImagePreview(null);
+      setPhotoFile(null);
+      setIsCamera(true);
+    } else {
+      stopCameraStream();
+      setIsCamera(false);
+    }
   };
 
   const handleCaptureImage = () => {
@@ -63,20 +73,9 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({ currentUser }) => {
 
   const handleRetakeImage = () => {
     setImagePreview(null);
-    setIsCamera(true);
-
-    navigator.mediaDevices
-      .getUserMedia({ video: true })
-      .then((mediaStream) => {
-        if (videoRef.current) {
-          videoRef.current.srcObject = mediaStream;
-          setStream(mediaStream);
-        }
-      })
-      .catch((err) => {
-        console.error("Failed to access camera: ", err);
-        toast.error("Failed to access camera.");
-      });
+    setPhotoFile(null);
+    stopCameraStream();
+    setIsCamera(true); // Ustawiamy kamerę na true, aby ją ponownie uruchomić
   };
 
   const handleUploadPhoto = async () => {
@@ -101,25 +100,31 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({ currentUser }) => {
   };
 
   useEffect(() => {
-    if (isCamera && videoRef.current) {
+    let isMounted = true;
+
+    if (isCamera && videoRef.current && !stream) {
       navigator.mediaDevices
         .getUserMedia({ video: true })
         .then((mediaStream) => {
-          setStream(mediaStream);
-          if (videoRef.current) {
+          if (isMounted && videoRef.current) {
             videoRef.current.srcObject = mediaStream;
+            setStream(mediaStream);
           }
         })
         .catch((err) => {
           console.error("Failed to access camera: ", err);
           toast.error("Failed to access camera.");
+          setIsCamera(false); // Jeśli nie uda się otworzyć kamery, zatrzymujemy ją
         });
-
-      return () => {
-        stream?.getTracks().forEach((track) => track.stop());
-      };
+    } else if (!isCamera && stream) {
+      stopCameraStream(); // Jeśli kamera jest wyłączona, zatrzymujemy strumień
     }
-  }, [isCamera, stream]);
+
+    return () => {
+      isMounted = false;
+      stopCameraStream(); // Gwarantujemy, że strumień zostanie zatrzymany przy demontażu
+    };
+  }, [isCamera, stream, stopCameraStream]);
 
   useEffect(() => {
     if (currentUser?.photoURL) {
@@ -131,18 +136,11 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({ currentUser }) => {
 
   return (
     <div className="flex flex-col items-center mt-4 space-y-4">
-      {/* Avatar Image */}
       <div className="w-24 h-24 rounded-full overflow-hidden border border-gray-300 shadow">
-        {imagePreview ? (
-          <img
-            src={imagePreview}
-            alt="Preview"
-            className="w-full h-full object-cover"
-          />
-        ) : currentUser.photoURL ? (
+        {currentUser.photoURL ? (
           <img
             src={currentUser.photoURL}
-            alt="User Avatar"
+            alt="Preview"
             className="w-full h-full object-cover"
           />
         ) : (
@@ -154,14 +152,12 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({ currentUser }) => {
         )}
       </div>
 
-      {/* Display Name */}
       {currentUser.displayName && (
         <div className="mt-2 text-center text-gray-800 font-semibold">
           {currentUser.displayName}
         </div>
       )}
 
-      {/* File Input and Camera Button */}
       <div className="flex space-x-4 w-full">
         <input
           type="file"
@@ -177,10 +173,23 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({ currentUser }) => {
         </button>
       </div>
 
-      {/* Camera UI */}
       {isCamera && (
         <div className="mt-2 w-full">
-          {imagePreview ? (
+          {!imagePreview ? (
+            <>
+              <video
+                ref={videoRef}
+                autoPlay
+                className="w-full h-auto rounded"
+              />
+              <button
+                type="button"
+                onClick={handleCaptureImage}
+                className="w-full mt-2 py-2 px-4 bg-green-500 text-white rounded">
+                Capture Photo
+              </button>
+            </>
+          ) : (
             <div>
               <img
                 src={imagePreview}
@@ -194,27 +203,11 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({ currentUser }) => {
                 Retake Photo
               </button>
             </div>
-          ) : (
-            <video
-              ref={videoRef}
-              autoPlay
-              className="w-full h-auto"
-              style={{ borderRadius: "8px" }}
-            />
           )}
-          {!imagePreview && (
-            <button
-              type="button"
-              onClick={handleCaptureImage}
-              className="w-full mt-2 py-2 px-4 bg-green-500 text-white rounded">
-              Capture Photo
-            </button>
-          )}
-          <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
+          <canvas ref={canvasRef} style={{ display: "none" }} />
         </div>
       )}
 
-      {/* Upload Button */}
       <button
         onClick={handleUploadPhoto}
         className="w-full mt-2 py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
