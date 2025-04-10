@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { FaHome, FaReceipt, FaUserAlt, FaCog } from "react-icons/fa";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
+import { MdCategory } from "react-icons/md";
+import { MdAddBox } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -69,10 +71,19 @@ const LeftNavbar = ({
         </li>
         <li>
           <Link
+            to="/categories"
+            onClick={onClose}
+            className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-600 transition-all duration-300">
+            <MdCategory className="text-xl" />
+            <span>Categories</span>
+          </Link>
+        </li>
+        <li>
+          <Link
             to="/category/add"
             onClick={onClose}
             className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-600 transition-all duration-300">
-            <FaMoneyBillTrendUp className="text-xl" />
+            <MdAddBox className="text-xl" />
             <span>Add Category</span>
           </Link>
         </li>
