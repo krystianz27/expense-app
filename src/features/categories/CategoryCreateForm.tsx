@@ -37,7 +37,7 @@ const CategoryCreateForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <div className="max-w-xl my-4 mx-auto p-6 bg-zinc-100 shadow-lg rounded-lg">
       <h2 className="text-3xl font-semibold text-center mb-6 text-blue-600">
         Dodaj nową kategorię
       </h2>
