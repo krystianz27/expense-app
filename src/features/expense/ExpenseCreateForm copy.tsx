@@ -3,45 +3,8 @@ import { ExpenseFormData, expenseSchema } from "@lib/validation/expenseSchema";
 import { useForm } from "react-hook-form";
 import { addExpense } from "./expenseService";
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
-import { Category, getUserCategories } from "../categories/categoryService"; // Assuming categoryService is in the same directory
-import { User as FirebaseUser } from "firebase/auth";
-import { auth } from "@src/firebase/config";
 
 export const ExpenseCreateForm = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<FirebaseUser | null>(null);
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
-      setUser(currentUser);
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    if (!user) {
-      setLoading(false);
-      return;
-    }
-
-    const fetchCategories = async () => {
-      try {
-        const fetchedCategories = await getUserCategories();
-        setCategories(fetchedCategories);
-      } catch (error) {
-        console.error("Error fetching categories: ", error);
-        toast.error("Failed to load categories.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCategories();
-  }, [user]);
-
   const {
     register,
     handleSubmit,
@@ -64,10 +27,6 @@ export const ExpenseCreateForm = () => {
       toast.error("An error occurred while adding the expense.");
     }
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className="max-w-xl mx-auto p-6 bg-zinc-100 shadow-lg rounded-lg">
@@ -117,16 +76,11 @@ export const ExpenseCreateForm = () => {
           <label className="block text-lg font-medium mb-2 text-gray-700">
             Category
           </label>
-          <select
+          <input
+            type="text"
             {...register("category")}
-            className="border-2 border-gray-300 p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="">Select a category</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
+            className="border-2 border-gray-300 p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
           {errors.category && (
             <span className="text-red-500 text-sm mt-1">
               {errors.category.message}
@@ -162,6 +116,11 @@ export const ExpenseCreateForm = () => {
             {...register("receipt")}
             className="border-2 border-gray-300 p-3 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          {/* {errors.receipt && (
+            <span className="text-red-500 text-sm mt-1">
+              {errors.receipt.message}
+            </span>
+          )} */}
         </div>
 
         {/* Submit Button */}

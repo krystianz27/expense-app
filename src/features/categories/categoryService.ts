@@ -8,6 +8,7 @@ import {
   doc,
   updateDoc,
   deleteDoc,
+  getDoc,
 } from "firebase/firestore";
 
 export interface Category {
@@ -45,12 +46,32 @@ export const getUserCategories = async (): Promise<Category[]> => {
 };
 
 export const deleteCategory = async (categoryId: string) => {
-  await deleteDoc(doc(db, "categories", categoryId));
+  const userId = auth.currentUser?.uid;
+  if (!userId) throw new Error("User is not logged in");
+
+  const docRef = doc(db, "categories", categoryId);
+  const categorySnap = await getDoc(docRef);
+
+  if (!categorySnap.exists() || categorySnap.data().userId !== userId) {
+    throw new Error("Not authorized to delete this category");
+  }
+
+  await deleteDoc(docRef);
 };
 
 export const updateCategory = async (
   categoryId: string,
   updatedData: Partial<Category>,
 ) => {
-  await updateDoc(doc(db, "categories", categoryId), updatedData);
+  const userId = auth.currentUser?.uid;
+  if (!userId) throw new Error("User is not logged in");
+
+  const docRef = doc(db, "categories", categoryId);
+  const categorySnap = await getDoc(docRef);
+
+  if (!categorySnap.exists() || categorySnap.data().userId !== userId) {
+    throw new Error("Not authorized to update this category");
+  }
+
+  await updateDoc(docRef, updatedData);
 };

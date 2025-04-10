@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserExpenses } from "./expenseService";
+import { getUserExpenses, deleteExpense } from "./expenseService"; // Make sure you have a deleteExpense function in your service
 import { toast } from "react-toastify";
 import { auth } from "@src/firebase/config";
 import {
@@ -11,8 +11,11 @@ import {
   TableRow,
   TableSortLabel,
   Paper,
+  IconButton,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Category, getUserCategories } from "../categories/categoryService";
 
 interface Expense {
   id: string;
@@ -44,6 +47,7 @@ function getComparator(order: "asc" | "desc", orderBy: keyof Expense) {
 
 export const ExpenseList = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [userLoggedIn, setUserLoggedIn] = useState<boolean>(false);
   const [order, setOrder] = useState<"asc" | "desc">("asc");
@@ -63,12 +67,21 @@ export const ExpenseList = () => {
   }, []);
 
   useEffect(() => {
-    const fetchExpenses = async () => {
-      if (!userLoggedIn) return;
+    if (!userLoggedIn) return;
 
+    const fetchCategories = async () => {
+      try {
+        const fetchedCategories = await getUserCategories();
+        setCategories(fetchedCategories);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        toast.error("An error occurred while fetching categories.");
+      }
+    };
+
+    const fetchExpenses = async () => {
       try {
         const fetchedExpenses = await getUserExpenses();
-        console.log("Fetched expenses:", fetchedExpenses);
         setExpenses(fetchedExpenses as Expense[]);
       } catch (error) {
         console.error("Error fetching expenses:", error);
@@ -78,6 +91,7 @@ export const ExpenseList = () => {
       }
     };
 
+    fetchCategories();
     fetchExpenses();
   }, [userLoggedIn]);
 
@@ -88,6 +102,22 @@ export const ExpenseList = () => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
+  };
+
+  const handleDeleteExpense = async (id: string) => {
+    try {
+      await deleteExpense(id); // Assuming you have this function in your service
+      setExpenses((prev) => prev.filter((expense) => expense.id !== id));
+      toast.success("Expense deleted.");
+    } catch (error) {
+      console.error("Error deleting expense:", error);
+      toast.error("Failed to delete expense.");
+    }
+  };
+
+  const getCategoryName = (categoryId: string) => {
+    const category = categories.find((cat) => cat.id === categoryId);
+    return category ? category.name : "Unknown Category";
   };
 
   if (loading) {
@@ -149,6 +179,14 @@ export const ExpenseList = () => {
                 }}>
                 Receipt
               </TableCell>
+              <TableCell
+                sx={{
+                  backgroundColor: "#f1f5f9",
+                  color: "#1e3a8a",
+                  fontWeight: "bold",
+                }}>
+                Actions
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -167,7 +205,8 @@ export const ExpenseList = () => {
                     },
                   }}>
                   <TableCell>{expense.description}</TableCell>
-                  <TableCell>{expense.category}</TableCell>
+                  {/* <TableCell>{expense.category}</TableCell> */}
+                  <TableCell>{getCategoryName(expense.category)}</TableCell>
                   <TableCell align="right">{expense.amount} PLN</TableCell>
                   <TableCell>{expense.date}</TableCell>
                   <TableCell>
@@ -182,6 +221,13 @@ export const ExpenseList = () => {
                     ) : (
                       "No receipt"
                     )}
+                  </TableCell>
+                  <TableCell>
+                    <IconButton
+                      color="error"
+                      onClick={() => handleDeleteExpense(expense.id)}>
+                      <DeleteIcon />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               ))}

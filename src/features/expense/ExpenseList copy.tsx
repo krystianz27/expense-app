@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserExpenses } from "./expenseService";
+import { getUserExpenses, deleteExpense } from "./expenseService"; // Make sure you have a deleteExpense function in your service
 import { toast } from "react-toastify";
 import { auth } from "@src/firebase/config";
 import {
@@ -11,8 +11,10 @@ import {
   TableRow,
   TableSortLabel,
   Paper,
+  IconButton,
 } from "@mui/material";
 import { Link } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface Expense {
   id: string;
@@ -68,6 +70,7 @@ export const ExpenseList = () => {
 
       try {
         const fetchedExpenses = await getUserExpenses();
+        console.log("Fetched expenses:", fetchedExpenses);
         setExpenses(fetchedExpenses as Expense[]);
       } catch (error) {
         console.error("Error fetching expenses:", error);
@@ -89,6 +92,17 @@ export const ExpenseList = () => {
     setOrderBy(property);
   };
 
+  const handleDeleteExpense = async (id: string) => {
+    try {
+      await deleteExpense(id); // Assuming you have this function in your service
+      setExpenses((prev) => prev.filter((expense) => expense.id !== id));
+      toast.success("Expense deleted.");
+    } catch (error) {
+      console.error("Error deleting expense:", error);
+      toast.error("Failed to delete expense.");
+    }
+  };
+
   if (loading) {
     return <div className="text-center text-blue-600">Loading...</div>;
   }
@@ -106,7 +120,7 @@ export const ExpenseList = () => {
         </Link>
       </div>
 
-      <TableContainer component={Paper}>
+      <TableContainer className="overflow-x-auto" component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="expenses table">
           <TableHead>
             <TableRow>
@@ -148,6 +162,14 @@ export const ExpenseList = () => {
                 }}>
                 Receipt
               </TableCell>
+              <TableCell
+                sx={{
+                  backgroundColor: "#f1f5f9",
+                  color: "#1e3a8a",
+                  fontWeight: "bold",
+                }}>
+                Actions
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -181,6 +203,13 @@ export const ExpenseList = () => {
                     ) : (
                       "No receipt"
                     )}
+                  </TableCell>
+                  <TableCell>
+                    <IconButton
+                      color="error"
+                      onClick={() => handleDeleteExpense(expense.id)}>
+                      <DeleteIcon />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               ))}
