@@ -8,6 +8,9 @@ import RegisterForm from "@components/auth/RegisterForm";
 import Toast from "@components/shared/Toast";
 import ProtectedRoute from "@components/shared/ProtectedRoute";
 import PersistAuth from "./components/auth/PersistAuth";
+import { ExpenseCreateForm } from "@features/expense/ExpenseCreateForm";
+import { ExpenseList } from "./features/expense/ExpenseList";
+import CategoryCreateForm from "./features/categories/CategoryCreateForm";
 
 const App = () => {
   return (
@@ -28,6 +31,30 @@ const App = () => {
               element={
                 <ProtectedRoute>
                   <UserProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/expenses"
+              element={
+                <ProtectedRoute>
+                  <ExpenseList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/expense/add"
+              element={
+                <ProtectedRoute>
+                  <ExpenseCreateForm />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/category/add"
+              element={
+                <ProtectedRoute>
+                  <CategoryCreateForm />
                 </ProtectedRoute>
               }
             />
