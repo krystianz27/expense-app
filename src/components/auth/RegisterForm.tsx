@@ -4,6 +4,7 @@ import { auth } from "@fbconfig/config";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useRedirectIfAuthenticated } from "@src/hooks/useRedirectIfAuthenticated";
+import GoogleLoginButton from "./GoogleLoginButton";
 
 type FormData = {
   email: string;
@@ -81,6 +82,8 @@ const RegisterForm = () => {
           className="w-full p-3 bg-indigo-800 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
           Register
         </button>
+
+        <GoogleLoginButton />
       </form>
     </div>
   );
