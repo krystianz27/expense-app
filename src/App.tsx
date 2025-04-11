@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import DashboardLayout from "./components/shared/navbar/DashboardLayout";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./components/Dashboard";
 import Toast from "@components/shared/Toast";
 import PersistAuth from "./components/auth/PersistAuth";
 
