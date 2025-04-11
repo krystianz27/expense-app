@@ -10,7 +10,7 @@ export const useRedirectIfAuthenticated = () => {
   useEffect(() => {
     // console.log("Redirect check - user:", user);
     if (user && user.uid) {
-      navigate("/dashboard");
+      navigate("/");
     }
   }, [user, navigate]);
 };
