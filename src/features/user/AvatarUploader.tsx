@@ -75,7 +75,7 @@ const AvatarUploader: React.FC<AvatarUploaderProps> = ({ currentUser }) => {
     setImagePreview(null);
     setPhotoFile(null);
     stopCameraStream();
-    setIsCamera(true); // Ustawiamy kamerę na true, aby ją ponownie uruchomić
+    setIsCamera(true);
   };
 
   const handleUploadPhoto = async () => {
