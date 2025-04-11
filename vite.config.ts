@@ -1,9 +1,10 @@
 import { defineConfig } from "vite";
+import { visualizer } from "rollup-plugin-visualizer";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), visualizer({ open: true })],
   resolve: {
     alias: {
       "@src": new URL("./src", import.meta.url).pathname,
