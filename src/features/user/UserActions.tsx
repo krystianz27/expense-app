@@ -9,19 +9,24 @@ import {
   User,
 } from "firebase/auth";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 interface UserActionsProps {
   currentUser: User | null;
 }
 
 const UserActions: React.FC<UserActionsProps> = ({ currentUser }) => {
+  const navigate = useNavigate();
+
   if (!currentUser) {
     return <p>Please log in to view actions.</p>;
   }
 
   const handleLogout = () => {
     auth.signOut();
+
     toast.success("Logged out successfully.");
+    navigate("/");
   };
 
   const handleResetPassword = async () => {
