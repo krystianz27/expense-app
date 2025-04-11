@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
-import { FaHome, FaReceipt, FaUserAlt, FaCog } from "react-icons/fa";
+import { FaHome, FaReceipt, FaUserAlt } from "react-icons/fa";
 import { FaMoneyBillTrendUp } from "react-icons/fa6";
 import { MdCategory } from "react-icons/md";
 import { MdAddBox } from "react-icons/md";
+import { AiFillDashboard } from "react-icons/ai";
+import { IoMdWarning } from "react-icons/io";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -24,7 +27,7 @@ const LeftNavbar = ({
   const handleLogout = () => {
     dispatch(logoutUser());
     onClose();
-    navigate("/login", { replace: true });
+    navigate("/", { replace: true });
   };
 
   return (
@@ -39,9 +42,20 @@ const LeftNavbar = ({
             onClick={onClose}
             className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-600 transition-all duration-300">
             <FaHome className="text-xl" />
+            <span>Home</span>
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            to="/dashboard"
+            onClick={onClose}
+            className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-600 transition-all duration-300">
+            <AiFillDashboard className="text-xl" />
             <span>Dashboard</span>
           </Link>
         </li>
+
         <li>
           <Link
             to="/profile"
@@ -51,33 +65,7 @@ const LeftNavbar = ({
             <span>Profile</span>
           </Link>
         </li>
-        <li>
-          <Link
-            to="/expenses"
-            onClick={onClose}
-            className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-600 transition-all duration-300">
-            <FaReceipt className="text-xl" />
-            <span>My Expenses</span>
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/expenses"
-            onClick={onClose}
-            className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-600 transition-all duration-300">
-            <FaReceipt className="text-xl" />
-            <span>My Expenses</span>
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/expenses"
-            onClick={onClose}
-            className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-600 transition-all duration-300">
-            <FaReceipt className="text-xl" />
-            <span>My Expenses</span>
-          </Link>
-        </li>
+
         <li>
           <Link
             to="/expenses"
@@ -97,6 +85,7 @@ const LeftNavbar = ({
             <span>Add Expense</span>
           </Link>
         </li>
+
         <li>
           <Link
             to="/categories"
@@ -106,6 +95,7 @@ const LeftNavbar = ({
             <span>Categories</span>
           </Link>
         </li>
+
         <li>
           <Link
             to="/category/add"
@@ -115,7 +105,18 @@ const LeftNavbar = ({
             <span>Add Category</span>
           </Link>
         </li>
+
         <li>
+          <Link
+            to="/budgets"
+            onClick={onClose}
+            className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-600 transition-all duration-300">
+            <IoMdWarning className="text-xl" />
+            <span>Budgets</span>
+          </Link>
+        </li>
+
+        {/* <li>
           <Link
             to="/settings"
             onClick={onClose}
@@ -123,10 +124,10 @@ const LeftNavbar = ({
             <FaCog className="text-xl" />
             <span>Settings</span>
           </Link>
-        </li>
+        </li> */}
       </ul>
 
-      <div className="my-auto space-y-4 mt-4 pb-18">
+      <div className="my-auto space-y-4 mt-4 pb-18 mr-4">
         {!user ? (
           <>
             <Link
