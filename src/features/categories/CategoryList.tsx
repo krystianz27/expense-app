@@ -108,11 +108,11 @@ export const CategoryList = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-semibold text-blue-600">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
+        <h2 className="text-2xl font-semibold text-blue-600 mb-4 sm:mb-0">
           Your Categories
         </h2>
-        <div className="flex space-x-4 gap-2">
+        <div className="flex flex-col sm:flex-row space-x-2 gap-2">
           <Button
             variant="contained"
             color="primary"

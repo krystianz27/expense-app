@@ -125,12 +125,12 @@ export const ExpenseList = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-semibold text-center text-blue-600">
+    <div className="max-w-4xl overflow- mx-auto p-6 bg-white shadow-lg rounded-lg">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
+        <h2 className="text-3xl font-semibold text-center text-blue-600 mb-4 sm:mb-0">
           Your Expenses
         </h2>
-        <div className="flex space-x-4">
+        <div className="flex flex-col sm:flex-row space-x-4 gap-2">
           <Link to="/expense/add">
             <button className="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700">
               Add Expense
@@ -144,7 +144,7 @@ export const ExpenseList = () => {
         </div>
       </div>
 
-      <TableContainer className="overflow-x-auto" component={Paper}>
+      <TableContainer className="overflow-auto" component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="expenses table">
           <TableHead>
             <TableRow>
