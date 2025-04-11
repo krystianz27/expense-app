@@ -15,21 +15,20 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div className="flex">
-      <div className="absolute left-0 right-0 z-50">
+    <div>
+      <div className="fixed left-0 right-0 z-50">
         <Navbar onToggleMenu={toggleMenu} />
-
-        {isMenuOpen && (
-          <div className="top-15 fixed left-0 z-50 overflow-y-auto w-72 bg-gray-800 shadow-lg h-full">
-            <LeftNavbar onClose={closeMenu} />
-          </div>
-        )}
       </div>
+      {isMenuOpen && (
+        <div className="overflow-y-scroll top-15 left-0 z-50">
+          <LeftNavbar onClose={closeMenu} />
+        </div>
+      )}
 
       <div
-        className={`mt-18 flex-1 px-2 my-2 transition-all duration-300 ${
-          isMenuOpen ? "ml-72" : "ml-0"
-        } h-full overflow-auto`}>
+        className={`fixed top-15 flex-1 px-2 my-2 mt-18 transition-all duration-300 ${
+          isMenuOpen ? "ml-72 overflow-auto" : "ml-0 overflow-auto"
+        } h-full`}>
         <Outlet />
       </div>
     </div>

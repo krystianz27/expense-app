@@ -29,9 +29,9 @@ const LeftNavbar = ({
 
   return (
     <div
-      className={`top-15 left-0 fixed z-50 transition-all duration-300 ease-in-out ${
+      className={`left-0 z-50 transition-all duration-300 ease-in-out ${
         className ?? ""
-      } bg-gray-800 p-6 w-72 min-h-screen overflow-auto rounded-br-3xl shadow-lg border-t border-zinc-400 flex flex-col`}>
+      } bg-gray-800 p-6 w-72 min-h-screen overflow-auto rounded-br-3xl shadow-lg border-t border-zinc-400 flex flex-col md:block`}>
       <ul className="space-y-6 text-white flex-grow">
         <li>
           <Link
@@ -60,6 +60,34 @@ const LeftNavbar = ({
             <span>My Expenses</span>
           </Link>
         </li>
+        <li>
+          <Link
+            to="/expenses"
+            onClick={onClose}
+            className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-600 transition-all duration-300">
+            <FaReceipt className="text-xl" />
+            <span>My Expenses</span>
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/expenses"
+            onClick={onClose}
+            className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-600 transition-all duration-300">
+            <FaReceipt className="text-xl" />
+            <span>My Expenses</span>
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/expenses"
+            onClick={onClose}
+            className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-600 transition-all duration-300">
+            <FaReceipt className="text-xl" />
+            <span>My Expenses</span>
+          </Link>
+        </li>
+
         <li>
           <Link
             to="/expense/add"
