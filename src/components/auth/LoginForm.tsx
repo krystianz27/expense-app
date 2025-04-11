@@ -15,8 +15,7 @@ const LoginForm = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const location = useLocation();
-  const from =
-    (location.state as { from?: Location })?.from?.pathname || "/dashboard";
+  const from = (location.state as { from?: Location })?.from?.pathname || "/";
 
   useRedirectIfAuthenticated();
   const {

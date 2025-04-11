@@ -86,7 +86,7 @@ export default function DashboardLayoutAccount(props: DemoProps) {
     };
   }, []);
 
-  const router = useDemoRouter("/dashboard");
+  const router = useDemoRouter("/");
 
   // Remove this const when copying and pasting into your project.
   const demoWindow = window !== undefined ? window() : undefined;

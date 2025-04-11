@@ -35,7 +35,7 @@ const LeftNavbar = ({
       <ul className="space-y-6 text-white flex-grow">
         <li>
           <Link
-            to="/dashboard"
+            to="/"
             onClick={onClose}
             className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-600 transition-all duration-300">
             <FaHome className="text-xl" />
@@ -126,7 +126,7 @@ const LeftNavbar = ({
         </li>
       </ul>
 
-      <div className="my-auto space-y-4 pb-18">
+      <div className="my-auto space-y-4 mt-4 pb-18">
         {!user ? (
           <>
             <Link
