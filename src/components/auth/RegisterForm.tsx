@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@fbconfig/config";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useRedirectIfAuthenticated } from "@src/hooks/useRedirectIfAuthenticated";
 
 type FormData = {
   email: string;
@@ -11,6 +12,9 @@ type FormData = {
 
 const RegisterForm = () => {
   const navigate = useNavigate();
+
+  useRedirectIfAuthenticated();
+
   const {
     register,
     handleSubmit,
