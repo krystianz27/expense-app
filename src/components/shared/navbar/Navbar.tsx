@@ -11,7 +11,13 @@ const Navbar = ({ onToggleMenu }: { onToggleMenu: () => void }) => {
         <button onClick={onToggleMenu} className="text-white">
           <FaBars size={24} />
         </button>
-        <h1 className="text-xl">Expense Tracker</h1>
+        <Link
+          to="/"
+          className="items-center space-x-2 rounded-md hover:text-gray-400 transition-all duration-300">
+          <span>
+            <h1 className="text-xl">Expense Tracker</h1>
+          </span>
+        </Link>
       </div>
 
       <div className="hidden sm:flex items-center space-x-3">
@@ -29,7 +35,7 @@ const Navbar = ({ onToggleMenu }: { onToggleMenu: () => void }) => {
         </Link>
         <Link
           to="/expense/add"
-          className="flex items-center space-x-2 rounded-md hover:bg-gray-600 transition-all duration-300">
+          className="flex items-center space-x-2 hover:text-gray-400 transition-all duration-300">
           <FaMoneyBillTrendUp className="text-xl" />
           <span>Add Expense</span>
         </Link>
