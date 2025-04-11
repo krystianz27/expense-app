@@ -8,9 +8,8 @@ export const useRedirectIfAuthenticated = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // console.log("Redirect check - user:", user);
     if (user && user.uid) {
-      navigate("/");
+      navigate("/dashboard", { replace: true });
     }
   }, [user, navigate]);
 };
