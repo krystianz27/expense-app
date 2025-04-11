@@ -1,6 +1,6 @@
 import { loginSuccess, logout } from "./userSlice";
 import { auth } from "../../firebase/config";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut, User } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { AppDispatch } from "../../redux/store";
 
@@ -57,6 +57,18 @@ export const loginUser =
         throw new Error("An unexpected error occurred.");
       }
     }
+  };
+
+export const loginWithProvider =
+  (user: User) => async (dispatch: AppDispatch) => {
+    const userData = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+    };
+
+    dispatch(loginSuccess(userData));
   };
 
 export const logoutUser = () => async (dispatch: AppDispatch) => {
