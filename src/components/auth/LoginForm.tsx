@@ -5,10 +5,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { AppDispatch } from "../../redux/store";
 import { loginUser } from "../../features/user/userAuthActions";
 import { useRedirectIfAuthenticated } from "../../hooks/useRedirectIfAuthenticated";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../../firebase/config";
-import { FirebaseError } from "firebase/app";
 import GoogleLoginButton from "./GoogleLoginButton";
+import GithubLoginButton from "./GithubLoginButton";
 
 type FormData = {
   email: string;
@@ -27,31 +25,6 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
-
-  const handleGoogleLogin = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-
-      if (user.email) {
-        // Login and dispatch action to store user data
-        await dispatch(loginUser(user.email, user.uid));
-        toast.success("Successfully logged in with Google!");
-        navigate(from);
-      } else {
-        toast.error("No email found for this user.");
-      }
-    } catch (error: unknown) {
-      if (error instanceof FirebaseError) {
-        toast.error("Google login failed!");
-        console.error(error.message);
-      } else {
-        toast.error("An unexpected error occurred.");
-        console.error(error);
-      }
-    }
-  };
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -106,8 +79,19 @@ const LoginForm = () => {
           Log In
         </button>
 
-        {/* Przycisk logowania przez Google */}
-        <GoogleLoginButton />
+        <div className="flex flex-col gap-4 mt-4">
+          <GoogleLoginButton />
+          <GithubLoginButton />
+        </div>
+
+        <p className="text-center mt-4">
+          Don't have an account?{" "}
+          <button
+            onClick={() => navigate("/register")}
+            className="text-indigo-800 font-semibold hover:underline">
+            Register now
+          </button>
+        </p>
       </form>
     </div>
   );

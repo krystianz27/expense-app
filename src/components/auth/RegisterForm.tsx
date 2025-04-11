@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useRedirectIfAuthenticated } from "@src/hooks/useRedirectIfAuthenticated";
 import GoogleLoginButton from "./GoogleLoginButton";
+import GithubLoginButton from "./GithubLoginButton";
 
 type FormData = {
   email: string;
@@ -83,7 +84,21 @@ const RegisterForm = () => {
           Register
         </button>
 
-        <GoogleLoginButton />
+        <p className="text-center">or</p>
+
+        <div className="flex flex-col gap-4 mt-0">
+          <GoogleLoginButton />
+          <GithubLoginButton />
+        </div>
+
+        <p className="text-center mt-4">
+          Already have an account?{" "}
+          <button
+            onClick={() => navigate("/login")}
+            className="text-indigo-800 font-semibold hover:underline">
+            Log In
+          </button>
+        </p>
       </form>
     </div>
   );
