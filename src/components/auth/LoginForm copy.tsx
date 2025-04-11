@@ -5,10 +5,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { AppDispatch } from "../../redux/store";
 import { loginUser } from "../../features/user/userAuthActions";
 import { useRedirectIfAuthenticated } from "../../hooks/useRedirectIfAuthenticated";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../../firebase/config";
-import { FirebaseError } from "firebase/app";
-import GoogleLoginButton from "./GoogleLoginButton";
 
 type FormData = {
   email: string;
@@ -27,31 +23,6 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
-
-  const handleGoogleLogin = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-
-      if (user.email) {
-        // Login and dispatch action to store user data
-        await dispatch(loginUser(user.email, user.uid));
-        toast.success("Successfully logged in with Google!");
-        navigate(from);
-      } else {
-        toast.error("No email found for this user.");
-      }
-    } catch (error: unknown) {
-      if (error instanceof FirebaseError) {
-        toast.error("Google login failed!");
-        console.error(error.message);
-      } else {
-        toast.error("An unexpected error occurred.");
-        console.error(error);
-      }
-    }
-  };
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -105,9 +76,6 @@ const LoginForm = () => {
           className="w-full p-3 bg-indigo-800 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
           Log In
         </button>
-
-        {/* Przycisk logowania przez Google */}
-        <GoogleLoginButton />
       </form>
     </div>
   );
