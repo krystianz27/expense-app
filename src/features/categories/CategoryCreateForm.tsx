@@ -43,7 +43,7 @@ const CategoryCreateForm: React.FC = () => {
     <div className="max-w-xl my-4 mx-auto p-6 bg-zinc-100 shadow-lg rounded-lg">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-semibold text-center mb-6 text-blue-600">
-          Dodaj nową kategorię
+          Add Category
         </h2>
         <div className="flex space-x-4">
           <Link to="/expense/add">

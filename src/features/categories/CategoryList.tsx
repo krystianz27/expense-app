@@ -124,8 +124,8 @@ export const CategoryList = () => {
             variant="contained"
             color="primary"
             startIcon={<AddIcon />}
-            onClick={() => navigate("/category/add")}>
-            Add Category
+            onClick={() => navigate("/expense/add")}>
+            Add Expense
           </Button>
         </div>
       </div>
