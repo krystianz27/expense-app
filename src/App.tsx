@@ -7,9 +7,11 @@ import PersistAuth from "./components/auth/PersistAuth";
 import userRoutes from "./features/user/userRoutes";
 import expenseRoutes from "./features/expense/expenseRoute";
 import categoryRoutes from "./features/categories/categoryRoutes";
+import budgetRoutes from "./features/budgets/budgetRoutes";
 import authRoutes from "./components/auth/authRoutes";
 import sharedRoutes from "./components/shared/sharedRoutes";
 import ProtectedRoute from "@components/shared/ProtectedRoute";
+import Home from "./components/Home";
 
 const App = () => {
   return (
@@ -17,8 +19,10 @@ const App = () => {
       <PersistAuth>
         <Routes>
           <Route element={<DashboardLayout />}>
+            <Route path="/" element={<Home />} />
+
             <Route
-              path="/"
+              path="/dashboard"
               element={
                 <ProtectedRoute>
                   <Dashboard />
@@ -26,10 +30,12 @@ const App = () => {
               }
             />
             {userRoutes}
+            {authRoutes}
+
             {expenseRoutes}
             {categoryRoutes}
             {sharedRoutes}
-            {authRoutes}
+            {budgetRoutes}
           </Route>
         </Routes>
       </PersistAuth>
