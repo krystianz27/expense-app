@@ -1,10 +1,29 @@
 import { Route } from "react-router-dom";
-import LoginForm from "@components/auth/LoginForm";
-import RegisterForm from "@components/auth/RegisterForm";
+import { Suspense, lazy } from "react";
+import Spinner from "../shared/Spinner";
+
+const LoginForm = lazy(() => import("@components/auth/LoginForm"));
+const RegisterForm = lazy(() => import("@components/auth/RegisterForm"));
 
 const authRoutes = [
-  <Route path="/login" element={<LoginForm />} key="login" />,
-  <Route path="/register" element={<RegisterForm />} key="register" />,
+  <Route
+    path="/login"
+    element={
+      <Suspense fallback={<Spinner />}>
+        <LoginForm />
+      </Suspense>
+    }
+    key="login"
+  />,
+  <Route
+    path="/register"
+    element={
+      <Suspense fallback={<Spinner />}>
+        <RegisterForm />
+      </Suspense>
+    }
+    key="register"
+  />,
 ];
 
 export default authRoutes;

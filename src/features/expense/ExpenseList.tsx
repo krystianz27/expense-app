@@ -16,6 +16,7 @@ import {
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Category, getUserCategories } from "../categories/categoryService";
+import Spinner from "@src/components/shared/Spinner";
 
 interface Expense {
   id: string;
@@ -125,7 +126,7 @@ export const ExpenseList = () => {
   };
 
   if (loading) {
-    return <div className="text-center text-blue-600">Loading...</div>;
+    return <Spinner />;
   }
 
   return (

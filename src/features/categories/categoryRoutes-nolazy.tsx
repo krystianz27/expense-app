@@ -1,19 +1,14 @@
 import { Route } from "react-router-dom";
-import { Suspense, lazy } from "react";
+import CategoryList from "./CategoryList";
+import CategoryCreateForm from "./CategoryCreateForm";
 import ProtectedRoute from "@components/shared/ProtectedRoute";
-import Spinner from "@src/components/shared/Spinner";
-
-const CategoryList = lazy(() => import("./CategoryList"));
-const CategoryCreateForm = lazy(() => import("./CategoryCreateForm"));
 
 const categoryRoutes = [
   <Route
     path="/categories"
     element={
       <ProtectedRoute>
-        <Suspense fallback={<Spinner />}>
-          <CategoryList />
-        </Suspense>
+        <CategoryList />
       </ProtectedRoute>
     }
     key="categories"
@@ -22,9 +17,7 @@ const categoryRoutes = [
     path="/category/add"
     element={
       <ProtectedRoute>
-        <Suspense fallback={<Spinner />}>
-          <CategoryCreateForm />
-        </Suspense>
+        <CategoryCreateForm />
       </ProtectedRoute>
     }
     key="category-add"

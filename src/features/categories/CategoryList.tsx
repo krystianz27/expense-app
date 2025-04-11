@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
+import Spinner from "@src/components/shared/Spinner";
 
 interface Category {
   id: string;
@@ -44,7 +45,8 @@ function getComparator(order: "asc" | "desc", orderBy: keyof Category) {
     : (a: Category, b: Category) => -descendingComparator(a, b, orderBy);
 }
 
-export const CategoryList = () => {
+// export const CategoryList = () => {
+const CategoryList = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [userLoggedIn, setUserLoggedIn] = useState<boolean>(false);
@@ -102,7 +104,7 @@ export const CategoryList = () => {
   };
 
   if (loading) {
-    return <div className="text-center text-blue-600">Loading...</div>;
+    return <Spinner />;
   }
 
   return (
@@ -194,3 +196,5 @@ export const CategoryList = () => {
     </div>
   );
 };
+
+export default CategoryList;

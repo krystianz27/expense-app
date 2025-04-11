@@ -1,14 +1,25 @@
 import { Route } from "react-router-dom";
-import { ExpenseList } from "./ExpenseList";
-import { ExpenseCreateForm } from "./ExpenseCreateForm";
+import { Suspense, lazy } from "react";
 import ProtectedRoute from "@components/shared/ProtectedRoute";
+import Spinner from "@components/shared/Spinner";
+
+const ExpenseList = lazy(() =>
+  import("./ExpenseList").then((module) => ({ default: module.ExpenseList })),
+);
+const ExpenseCreateForm = lazy(() =>
+  import("./ExpenseCreateForm").then((module) => ({
+    default: module.ExpenseCreateForm,
+  })),
+);
 
 const expenseRoutes = [
   <Route
     path="/expenses"
     element={
       <ProtectedRoute>
-        <ExpenseList />
+        <Suspense fallback={<Spinner />}>
+          <ExpenseList />
+        </Suspense>
       </ProtectedRoute>
     }
     key="expenses"
@@ -17,7 +28,9 @@ const expenseRoutes = [
     path="/expense/add"
     element={
       <ProtectedRoute>
-        <ExpenseCreateForm />
+        <Suspense fallback={<Spinner />}>
+          <ExpenseCreateForm />
+        </Suspense>
       </ProtectedRoute>
     }
     key="expense-add"
