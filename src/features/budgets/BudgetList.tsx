@@ -57,7 +57,7 @@ export const BudgetList: React.FC = () => {
   };
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
+    <div className="p-6 max-w-3xl mx-auto bg-zinc-100 rounded-3xl">
       <div className="text-center mb-6">
         <Link
           to="/budgets/add"
@@ -77,7 +77,7 @@ export const BudgetList: React.FC = () => {
               {budgets.map((budget) => (
                 <li
                   key={budget.id}
-                  className="bg-zinc-100 p-4 border rounded-lg shadow-sm hover:shadow-md hover:bg-gray-50 transition-all flex justify-between items-center">
+                  className="bg-white p-4 border rounded-lg shadow-sm hover:shadow-md hover:bg-gray-50 transition-all flex justify-between items-center">
                   <div>
                     <h2 className="font-semibold text-xl">
                       Budget for {budget.month}/{budget.year}

@@ -12,11 +12,8 @@ interface UploadPhotoProps {
 }
 
 const UploadPhoto: React.FC<UploadPhotoProps> = ({
-  currentUserUid,
   setPhotoFile,
   setImagePreview,
-  photoFile,
-  setValue,
 }) => {
   const [isCamera, setIsCamera] = useState(false);
   const [stream, setStream] = useState<MediaStream | null>(null);
@@ -67,8 +64,8 @@ const UploadPhoto: React.FC<UploadPhotoProps> = ({
             const file = new File([blob], "photo.jpg", { type: "image/jpeg" });
             setPhotoFile(file);
             const imageUrl = URL.createObjectURL(file);
-            setImagePreviewState(imageUrl); // Use the new state for imagePreview
-            setImagePreview(imageUrl); // Pass the value up to the parent as well
+            setImagePreviewState(imageUrl);
+            setImagePreview(imageUrl);
           }
         });
       }
@@ -76,7 +73,7 @@ const UploadPhoto: React.FC<UploadPhotoProps> = ({
   };
 
   const handleRetakeImage = () => {
-    setImagePreviewState(null); // Reset the local state
+    setImagePreviewState(null);
     setIsCamera(true);
   };
 

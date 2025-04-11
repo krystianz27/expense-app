@@ -23,8 +23,6 @@ interface Category {
   name: string;
 }
 
-const headCells = [{ id: "name", label: "Category Name", align: "left" }];
-
 function descendingComparator(
   a: Category,
   b: Category,
@@ -106,7 +104,7 @@ export const CategoryList = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-zinc-200 shadow-lg rounded-3xl">
+    <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
         <h2 className="text-2xl font-semibold text-blue-600 mb-4 sm:mb-0">
           Your Categories
@@ -133,29 +131,22 @@ export const CategoryList = () => {
         <Table>
           <TableHead>
             <TableRow>
-              {headCells.map((headCell) => (
-                <TableCell
-                  key={headCell.id}
-                  align={headCell.align as "left" | "right"}
-                  sx={{
-                    backgroundColor: "#f1f5f9",
-                    color: "#1e3a8a",
-                    fontWeight: "bold",
-                    ...(headCell.id === "name"
-                      ? { borderRadius: "8px 0 0 0" }
-                      : {}),
-                  }}>
-                  <TableSortLabel
-                    active={orderBy === headCell.id}
-                    direction={orderBy === headCell.id ? order : "asc"}
-                    onClick={() =>
-                      handleRequestSort(headCell.id as keyof Category)
-                    }>
-                    {headCell.label}
-                  </TableSortLabel>
-                </TableCell>
-              ))}
               <TableCell
+                sx={{
+                  backgroundColor: "#f1f5f9",
+                  color: "#1e3a8a",
+                  fontWeight: "bold",
+                  borderRadius: "8px 0 0 0",
+                }}>
+                <TableSortLabel
+                  active={orderBy === "name"}
+                  direction={orderBy === "name" ? order : "asc"}
+                  onClick={() => handleRequestSort("name")}>
+                  Name
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                align="right"
                 sx={{
                   backgroundColor: "#f1f5f9",
                   color: "#1e3a8a",
@@ -179,7 +170,7 @@ export const CategoryList = () => {
                   },
                 }}>
                 <TableCell>{category.name}</TableCell>
-                <TableCell align="center">
+                <TableCell align="right">
                   <IconButton
                     color="error"
                     onClick={() => handleDelete(category.id)}>

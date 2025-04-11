@@ -65,7 +65,7 @@ export const ExpenseCreateForm = () => {
       reset({
         date: new Date().toISOString().split("T")[0],
       });
-      navigate("/expenses"); // Redirect to the expense list page after adding
+      navigate("/expenses");
     } catch (error) {
       console.error("Error while adding expense: ", error);
       toast.error("An error occurred while adding the expense.");
@@ -77,7 +77,7 @@ export const ExpenseCreateForm = () => {
   }
 
   return (
-    <div className="max-w-xl my-4 mx-auto p-6 bg-zinc-100 shadow-lg rounded-lg">
+    <div className="max-w-xl my-4 mx-auto p-6 bg-zinc-100 shadow-lg rounded-3xl">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-semibold text-center mb-6 text-blue-600">
           Add Expense

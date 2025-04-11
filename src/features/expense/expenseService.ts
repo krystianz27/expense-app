@@ -52,7 +52,7 @@ export const addExpense = async (expenseData: ExpenseFormData) => {
       date: expenseData.date,
       receipt: receiptUrl,
     });
-  } catch (e) {
+  } catch {
     throw new Error("Error while adding document to Firestore");
   }
 };
@@ -76,6 +76,7 @@ export const getUserExpenses = async (): Promise<Expense[]> => {
     })) as Expense[];
 
     return expenses;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
   } catch (e) {
     throw new Error("Error while fetching expenses from Firestore");
   }

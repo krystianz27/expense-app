@@ -1,3 +1,5 @@
+/* eslint-disable unused-imports/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { auth, db, storage } from "@fbconfig/config";
 import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -19,7 +21,7 @@ export const addExpense = async (expenseData: ExpenseFormData) => {
       receiptUrl = await getDownloadURL(uploadResult.ref);
     }
 
-    const docRef = await addDoc(collection(db, "expenses"), {
+    await addDoc(collection(db, "expenses"), {
       userId: userId,
       amount: expenseData.amount,
       description: expenseData.description,

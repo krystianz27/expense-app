@@ -50,7 +50,7 @@ const Dashboard = () => {
   const lastExpenses = expenses.slice(0, 10);
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 bg-zinc-200 rounded-2xl">
       <h2 className="text-2xl font-bold">Dashboard</h2>
 
       <section className="grid grid-cols-1 md:grid-cols-3 gap-4">

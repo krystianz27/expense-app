@@ -26,6 +26,13 @@ interface Expense {
   receipt: string | null;
 }
 
+const headCells = [
+  { id: "description", label: "Description", align: "left" },
+  { id: "category", label: "Category", align: "left" },
+  { id: "amount", label: "Amount", align: "right" },
+  { id: "date", label: "Date", align: "left" },
+];
+
 function descendingComparator(a: Expense, b: Expense, orderBy: keyof Expense) {
   const aValue = a[orderBy] ?? "";
   const bValue = b[orderBy] ?? "";
@@ -95,10 +102,7 @@ export const ExpenseList = () => {
     fetchExpenses();
   }, [userLoggedIn]);
 
-  const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
-    property: keyof Expense,
-  ) => {
+  const handleRequestSort = (property: keyof Expense) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
@@ -106,7 +110,7 @@ export const ExpenseList = () => {
 
   const handleDeleteExpense = async (id: string) => {
     try {
-      await deleteExpense(id); // Assuming you have this function in your service
+      await deleteExpense(id);
       setExpenses((prev) => prev.filter((expense) => expense.id !== id));
       toast.success("Expense deleted.");
     } catch (error) {
@@ -125,7 +129,7 @@ export const ExpenseList = () => {
   }
 
   return (
-    <div className="max-w-4xl overflow- mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <div className="max-w-4xl overflow- mx-auto p-6 bg-zinc-200 shadow-lg rounded-2xl">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
         <h2 className="text-3xl font-semibold text-center text-blue-600 mb-4 sm:mb-0">
           Your Expenses
@@ -148,12 +152,7 @@ export const ExpenseList = () => {
         <Table sx={{ minWidth: 650 }} aria-label="expenses table">
           <TableHead>
             <TableRow>
-              {[
-                { id: "description", label: "Description", align: "left" },
-                { id: "category", label: "Category", align: "left" },
-                { id: "amount", label: "Amount", align: "right" },
-                { id: "date", label: "Date", align: "left" },
-              ].map((headCell) => (
+              {headCells.map((headCell) => (
                 <TableCell
                   key={headCell.id}
                   align={headCell.align as "left" | "right"}
@@ -171,8 +170,8 @@ export const ExpenseList = () => {
                   <TableSortLabel
                     active={orderBy === headCell.id}
                     direction={orderBy === headCell.id ? order : "asc"}
-                    onClick={(event) =>
-                      handleRequestSort(event, headCell.id as keyof Expense)
+                    onClick={() =>
+                      handleRequestSort(headCell.id as keyof Expense)
                     }>
                     {headCell.label}
                   </TableSortLabel>
