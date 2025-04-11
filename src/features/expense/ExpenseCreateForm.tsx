@@ -1,10 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ExpenseFormData, expenseSchema } from "@lib/validation/expenseSchema";
+import {
+  ExpenseFormData,
+  expenseSchema,
+} from "@src/features/expense/expenseSchema";
 import { useForm } from "react-hook-form";
 import { addExpense } from "./expenseService";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-import { Category, getUserCategories } from "../categories/categoryService"; // Assuming categoryService is in the same directory
+import { Category, getUserCategories } from "../categories/categoryService";
 import { User as FirebaseUser } from "firebase/auth";
 import { auth } from "@src/firebase/config";
 import { Link, useNavigate } from "react-router-dom";

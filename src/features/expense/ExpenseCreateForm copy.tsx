@@ -1,5 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ExpenseFormData, expenseSchema } from "@lib/validation/expenseSchema";
+import {
+  ExpenseFormData,
+  expenseSchema,
+} from "@src/features/expense/expenseSchema";
 import { useForm } from "react-hook-form";
 import { addExpense } from "./expenseService";
 import { toast } from "react-toastify";

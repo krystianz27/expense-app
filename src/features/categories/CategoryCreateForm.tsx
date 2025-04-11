@@ -2,9 +2,9 @@ import { useForm } from "react-hook-form";
 import {
   categorySchema,
   CategoryFormData,
-} from "@src/lib/validation/categorySchema";
+} from "@src/features/categories/categorySchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addCategory } from "@src/features/categories/categoryService"; // Upewnij się, że masz odpowiednią ścieżkę
+import { addCategory } from "@src/features/categories/categoryService";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -33,7 +33,7 @@ const CategoryCreateForm: React.FC = () => {
       await addCategory(category);
       toast.success("Kategoria została dodana!");
       reset();
-      navigate("/categories"); // Przekierowanie do listy kategorii po dodaniu
+      navigate("/categories");
     } catch (error) {
       toast.error("Błąd podczas dodawania kategorii.");
     }

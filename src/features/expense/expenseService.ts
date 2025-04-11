@@ -16,7 +16,7 @@ import {
   getDownloadURL,
   deleteObject,
 } from "firebase/storage";
-import { ExpenseFormData } from "lib/validation/expenseSchema";
+import { ExpenseFormData } from "@src/features/expense/expenseSchema";
 
 export interface Expense {
   id?: string;
