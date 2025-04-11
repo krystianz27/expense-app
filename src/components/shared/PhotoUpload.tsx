@@ -40,7 +40,7 @@ const UploadPhoto: React.FC<UploadPhotoProps> = ({
         stream?.getTracks().forEach((track) => track.stop());
       };
     }
-  }, [isCamera]);
+  }, [isCamera, stream]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
