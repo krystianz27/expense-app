@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../../firebase/config";
-import { loginUser } from "../../features/user/userAuthActions";
+import { loginWithProvider } from "../../features/user/userAuthActions";
 import { FirebaseError } from "firebase/app";
 import { AppDispatch } from "@src/redux/store";
 import { FaGoogle } from "react-icons/fa";
@@ -18,8 +18,8 @@ const GoogleLoginButton = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      if (user.email) {
-        await dispatch(loginUser(user.email, user.uid));
+      if (user) {
+        await dispatch(loginWithProvider(user));
         toast.success("Successfully logged in with Google!");
         navigate("/");
       } else {
