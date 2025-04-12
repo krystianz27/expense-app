@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import DashboardLayout from "./components/shared/navbar/DashboardLayout";
 import Toast from "@components/shared/Toast";
@@ -26,6 +26,8 @@ const App = () => {
             {categoryRoutes}
             {budgetRoutes}
           </Route>
+
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </PersistAuth>
 
