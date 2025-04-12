@@ -4,6 +4,8 @@ import { signInWithEmailAndPassword, signOut, User } from "firebase/auth";
 import { FirebaseError } from "firebase/app";
 import { AppDispatch } from "../../redux/store";
 
+// Notification Token
+
 export const loginUser =
   (email: string, password: string) => async (dispatch: AppDispatch) => {
     try {
@@ -22,6 +24,7 @@ export const loginUser =
       };
 
       dispatch(loginSuccess(userData));
+      // await getUserToken(user.uid);
     } catch (error: unknown) {
       if (error instanceof FirebaseError) {
         const errorCode = error.code;
@@ -69,6 +72,7 @@ export const loginWithProvider =
     };
 
     dispatch(loginSuccess(userData));
+    // await getUserToken(user.uid);
   };
 
 export const logoutUser = () => async (dispatch: AppDispatch) => {

@@ -30,3 +30,16 @@ dist-ssr
 .env.development.local
 
 .stats.html
+
+# FIREBASE 
+# Compiled JavaScript files
+functions/lib/**/*.js
+functions/lib/**/*.js.map
+functions/serviceAccountKey.json
+
+# TypeScript v1 declaration files
+functions/typings/
+
+# Node.js dependency directory
+functions/node_modules/
+functions/*.local

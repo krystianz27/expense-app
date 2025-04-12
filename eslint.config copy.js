@@ -27,7 +27,7 @@ export default [
     },
     rules: {
       // Variables
-      "@typescript-eslint/no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": "warn",
       "no-unused-vars": "off",
       "react-refresh/only-export-components": [
         "warn",

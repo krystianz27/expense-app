@@ -3,6 +3,7 @@ import { Suspense, lazy } from "react";
 import Home from "../Home";
 import Settings from "./Settings";
 import Spinner from "./Spinner";
+import UserLocationMap from "../UserLocationMap";
 
 const Dashboard = lazy(() => import("../Dashboard"));
 
@@ -16,6 +17,15 @@ const sharedRoutes = [
       </Suspense>
     }
     key="dashboard"
+  />,
+  <Route
+    path="/map"
+    element={
+      <Suspense fallback={<Spinner />}>
+        <UserLocationMap />
+      </Suspense>
+    }
+    key="map"
   />,
   <Route path="/settings" element={<Settings />} key="settings" />,
 ];
