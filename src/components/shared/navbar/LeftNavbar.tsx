@@ -5,6 +5,7 @@ import { MdCategory } from "react-icons/md";
 import { MdAddBox } from "react-icons/md";
 import { AiFillDashboard } from "react-icons/ai";
 import { IoMdWarning } from "react-icons/io";
+import { FaLocationDot } from "react-icons/fa6";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -113,6 +114,16 @@ const LeftNavbar = ({
             className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-600 transition-all duration-300">
             <IoMdWarning className="text-xl" />
             <span>Budgets</span>
+          </Link>
+        </li>
+
+        <li>
+          <Link
+            to="/map"
+            onClick={onClose}
+            className="flex items-center space-x-3 p-3 rounded-md hover:bg-gray-600 transition-all duration-300">
+            <FaLocationDot className="text-xl" />
+            <span>Location</span>
           </Link>
         </li>
 
